@@ -1,0 +1,10 @@
+{
+  "expo": {
+    "name": "ToastMessageAnimated",
+    "slug": "ToastMessageAnimated",
+    "version": "1.0.0",
+    "assetBundlePatterns": [
+      "**/*"
+    ]
+  }
+}
