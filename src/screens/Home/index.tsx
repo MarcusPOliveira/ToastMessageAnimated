@@ -1,7 +1,11 @@
-import React, { useRef } from 'react';
-import { Animated, Dimensions, StyleSheet, View } from 'react-native';
+import React, { useRef, useState } from 'react';
+import { Animated, Dimensions, SafeAreaView, StyleSheet } from 'react-native';
+
+import { Button } from '../../components/Button';
+import { ToastAnimated } from '../../components/ToastAnimated';
 
 export function Home() {
+  const [status, setStatus] = useState('');
 
   const windowHeight = Dimensions.get('window').height;
   const popAnimation = useRef(new Animated.Value(windowHeight * -1)).current;
@@ -21,7 +25,7 @@ export function Home() {
         duration: 300,
         useNativeDriver: true
       }).start();
-    }, 2000);
+    }, 5000);
   }
 
   function instantPopOut() {
@@ -32,15 +36,44 @@ export function Home() {
     }).start();
   }
 
-  return (
-    <View style={styles.container} >
+  function handleSuccess() {
+    setStatus('success');
+    popIn();
+  }
 
-    </View>
+  function handleFail() {
+    setStatus('fail');
+    popIn();
+  }
+
+  return (
+    <SafeAreaView style={styles.container} >
+      <ToastAnimated
+        status={status}
+        style={{
+          transform: [{
+            translateY: popAnimation
+          }]
+        }}
+        onPress={instantPopOut}
+      />
+      <Button
+        title='Success Message'
+        onPress={handleSuccess}
+      />
+      <Button
+        title='Fail Message'
+        onPress={handleFail}
+      />
+    </SafeAreaView>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: '#ADA8B6'
+    backgroundColor: '#FFF',
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center'
   }
 })
